@@ -28,6 +28,7 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include <version>
 
 namespace ImRefl {
 
@@ -1261,6 +1262,7 @@ struct Renderer<config, std::unique_ptr<T, Deleter>>
     }
 };
 
+#ifdef __cpp_lib_indirect
 template <Config config, typename T, typename Allocator>
 struct Renderer<config, std::indirect<T, Allocator>>
 {
@@ -1274,6 +1276,7 @@ struct Renderer<config, std::indirect<T, Allocator>>
         return Input<config>(name, *value);
     }
 };
+#endif
 
 template <Config config, typename T>
 struct Renderer<config, std::shared_ptr<T>>
@@ -1330,7 +1333,7 @@ struct Renderer<config, std::bitset<N>>
         ImGui::Text("%s", name);
         template for (constexpr auto i : detail::integer_sequence(N)) {
             if constexpr (config.HasAttn<InLine>()) { ImGui::SameLine(); }
-            Input<config>(detail::fmt("[{}]", i), value[i]);
+            Renderer<config, bool>::Render(detail::fmt("[{}]", i), value[i]);
         }
         return false;
     }

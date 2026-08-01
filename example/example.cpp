@@ -8,7 +8,6 @@
 #include <flat_set>
 #include <forward_list>
 #include <functional>
-#include <inplace_vector>
 #include <list>
 #include <map>
 #include <set>
@@ -19,6 +18,11 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+#include <version>
+
+#ifdef __cpp_lib_inplace_vector
+#include <inplace_vector>
+#endif
 
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
@@ -123,8 +127,11 @@ struct example
     const decltype(variant_) const_variant_ = false;
     std::expected<bool, int> expected_;
     const decltype(expected_) const_expected_ = true;
+
+    #ifdef __cpp_lib_indirect
     std::indirect<int> indirect_ = std::indirect<int>{};
     const decltype(indirect_) const_indirect_ = std::indirect<int>{73};
+    #endif
 
     [[=ImRefl::separator("Pointer types")]]
     std::unique_ptr<int> unique_ptr_ = std::make_unique<int>(i);
@@ -152,8 +159,11 @@ struct example
     const decltype(list_) const_list_ = {67, 9, 47, 2};
     std::forward_list<int> forward_list_;
     const decltype(forward_list_) const_forward_list_ = {76, 854, 234, 8};
+
+    #ifdef __cpp_lib_inplace_vector
     std::inplace_vector<int, 5> inplace_vector_;
     const decltype(inplace_vector_) const_inplace_vector_ = {3, 7, 23, 9, 10};
+    #endif
 
     [[=ImRefl::separator("Set types")]]
     std::set<int> set_;
