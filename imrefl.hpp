@@ -358,7 +358,7 @@ consteval auto num_type()
     throw "unknown scalar type";
 }
 
-bool square_button(const char* name)
+inline bool square_button(const char* name)
 {
     const float button_size = ImGui::GetFrameHeight();
     return ImGui::Button(name, {button_size, button_size});
@@ -639,7 +639,7 @@ bool render_tuple_like(const char* name, const T& value)
 }
 
 // Returns the size of a button for the given text
-ImVec2 button_size(const char* text)
+inline ImVec2 button_size(const char* text)
 {
     const auto text_size = ImGui::CalcTextSize(text);
     const auto padding = ImGui::GetStyle().FramePadding;
